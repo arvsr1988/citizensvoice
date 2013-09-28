@@ -1,10 +1,53 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
+﻿<!DOCTYPE html">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title></title>
+    <title>List View</title>
+    <script type="text/javascript" src="jquery-latest.js"></script>
+    <script type="text/javascript" src="list-view-engine.js"></script>
+    <script type="text/javascript" src="list-view.js"></script>
+    <link rel="stylesheet" href="citizens-style-sheet1.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 </head>
-<body>
+<body onload="getListIssues();">
+    <h1>
+        LIST VIEW</h1>
+    <div class="dropdown-list">
+        <label>
+            Issues in</label>
+        <select id="issues-dropdown">
+            <option selected="selected">All</option>
+            <option>Street Light</option>
+            <option>Open Drainage</option>
+            <option>Electricity</option>
+        </select>
+        <label>
+            Location</label>
+        <select id="location-dropdown">
+            <option>All</option>
+            <option>Adyar</option>
+            <option>Vada palani</option>
+            <option>Egmore</option>
+            <option>Central</option>
+        </select></div>
+    <br />
+    <div id="lists">
+        <table>
+         <tr>
+         <a id="issue-type" href="">issueType</a>
+        <label id="location-label">
+            location</label>
+        <label id="time">
+            time</label>
+        <img src="" />
+        <label id="status-label">
+            status</label>
+        <label id="votes-label">
+            Voting Count</label>
+         </tr>
+        </table>
+    </div>
+
+    
 
 </body>
 </html>

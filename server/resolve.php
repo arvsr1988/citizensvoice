@@ -6,6 +6,7 @@ if (mysqli_connect_errno())
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
   }
 $phpobj=json_decode($_POST['json'], true); 
+print_r($phpobj);
 mysqli_query($con,"UPDATE issue SET status='Closed' WHERE id='"+$phpobj->id+"'");
 
 mysqli_close($con);

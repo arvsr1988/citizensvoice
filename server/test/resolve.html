@@ -3,7 +3,7 @@
 <script>
 function submitStatus(){
 	    alert("submit");
-        dataString = "{\"id\":\"Siva\"}";
+        dataString = "json="+"{\"id\":\"Siva\"}";
         $.ajax({
         type: 'POST',
         url: '../resolve.php',

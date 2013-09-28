@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Citizen's Voice</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="js/appConstants.js"></script>
+<script src="js/utils/cookieUtils.js"></script>
+<script src="js/login.js"></script>
+<script src="js/utils/bootbox.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+<!-- Optional theme -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+</head>
+<script>
+$(document).ready(function(){
+	var loggedInUser = login.getLoggedInUser();
+	if(loggedInUser == null){
+		$("#loginDialog").show();
+		login.displayLoginDialog("");
+		}
+	else {
+		$("#userEmail").val(loggedInUser);
+		$("#formContainer").show();
+		}	
+		
+	$("#issueImage").change(function(){
+		imageUploadUtils.previewImage($(this).prop("id"),"uploadPreview");
+	});	
+	
+	$("#addIssueSubmit").click(function(){
+		issueForm.submitForm();
+		return false;
+		});
+});
+	
+var imageUploadUtils = {
+	 previewImage : function(uploadInput, previewElement) {
+		var oFReader = new FileReader();
+		oFReader.readAsDataURL(document.getElementById(uploadInput).files[0]);
+
+		oFReader.onload = function (oFREvent) {
+			document.getElementById(previewElement).src = oFREvent.target.result;
+		};
+	}
+}
+
+var issueForm = {
+	submitForm : function (){
+		var formData = new FormData($('#addIssueForm')[0]);
+		$.ajax({
+			url: '/citizensvoice/trunk/server/addIssue.php', //server script to process data
+			type: 'POST',
+			xhr: function() {  // custom xhr
+				myXhr = $.ajaxSettings.xhr();
+				if(myXhr.upload){ // check if upload property exists
+					// for handling the progress of the upload
+					myXhr.upload.addEventListener('progress', this.progressHandlingFunction, false); 
+				}
+				return myXhr;
+			},
+			success: function(result)
+			{
+				console.log($.ajaxSettings.xhr().upload);
+				alert(result);
+			},
+			// Form data
+			data: formData,
+			//Options to tell JQuery not to process data or worry about content-type
+			cache: false,
+			contentType: false,
+			processData: false
+		});		
+		},
+	 progressHandlingFunction : function(e){
+		if(e.lengthComputable){
+			$("#progress").text("Saving data.....");
+		}
+	}
+}
+</script>
+<body>
+<div class="container">
+	<div class="row">
+		<h1>Citizen's Voice</h1>
+	<div id="loginDialog" style="display : none;">You are not logged in. <a href="add-issue.html">Login.</a></div>
+	
+	<div id="formContainer" class="row" style="display : none;">
+		<h2>Please share the details of your issue below.</h2>
+		<form id="addIssueForm" action="" method="POST" role="form">
+			<input type="hidden" id="userEmail" name="userEmail" />
+		  <div class="form-group">
+			<label for="area">Area</label>
+			<input type="text" class="form-control" id="area" name="area" >
+		  </div>
+		  <div class="form-group">
+			<label for="issueType">Issue Type</label>
+			<select id="issueType" class="form-control" name="issueType"> 
+				<option value="1">Street Light Not Working</option>
+				<option value="2">Whatever</option>
+			</select>
+			</div>
+		  <div class="form-group">
+			<label>Description of the issue</label>
+			<textarea id="description" name="description" class="form-control" maxlength="100"></textarea>
+		   </div>
+		  <div class="form-group">
+			<label for="imageUpload">Picture of the issue</label>
+			<input id="issueImage" type="file" name="issueImage" />
+			<img id="uploadPreview" style="width: 100px; height: 100px;" />
+		   </div>		   
+		   
+ 		  <div class="form-group">
+			  <button id="addIssueSubmit" type="submit" class="btn btn-default">Submit</button>
+		  </div>  
+		</form>
+		<div id="progress"></div>
+	</div>
+</div>
+
+</div>
+</body>

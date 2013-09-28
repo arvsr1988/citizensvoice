@@ -15,7 +15,7 @@ function submitStatus(){
 }
 </script>
 <body>
-  <form name="input" action="html_form_action.asp" method="get">
+  <form name="input" onSubmit="return submitStatus()" >
     Issue Id: <input type="text" name="id">
     <input type="submit" value="Submit">
 </form>

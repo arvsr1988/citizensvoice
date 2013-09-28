@@ -2,22 +2,22 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
 function submitStatus(){
-        dataString = '{"id"="' + $id+'"}';
+	    alert("submit");
+        dataString = "adfadsd";
         $.ajax({
         type: 'POST',
         url: '../resolve.php',
         data: dataString,
         dataType: 'json',
         success: function(data) {
-        alert("Success");
-        }
-      }
+			alert("Success");
+			}
+		});
 }
 </script>
 <body>
-  <form name="input" onSubmit="return submitStatus()" >
+  
     Issue Id: <input type="text" name="id">
-    <input type="submit" value="Submit">
-</form>
+    <input type="button" value="Submit" onclick="submitStatus()">
 </body>
 </html>

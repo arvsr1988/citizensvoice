@@ -1,0 +1,23 @@
+<html>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+function submitStatus(){
+	    alert("submit");
+        dataString = "json="+"{\"id\":\"2\"}";
+        $.ajax({
+        type: 'POST',
+        url: '../resolve.php',
+        data: dataString,
+        dataType: 'json',
+        success: function(data) {
+			alert("Success");
+			}
+		});
+}
+</script>
+<body>
+  
+    Issue Id: <input type="text" name="id">
+    <input type="button" value="Submit" onclick="submitStatus()">
+</body>
+</html>

@@ -7,7 +7,7 @@ if (mysqli_connect_errno())
   }
 $phpobj=json_decode($_POST['json'], true); 
 print_r($phpobj);
-mysqli_query($con,"UPDATE issue SET status='Closed' WHERE id='"+$phpobj->id+"'");
+mysqli_query($con,"UPDATE issue SET status='Closed' WHERE id='"+$phpobj[0]->id+"'");
 
 mysqli_close($con);
 ?>

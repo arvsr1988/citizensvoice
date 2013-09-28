@@ -1,21 +1,18 @@
 <html>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
-  function runAjax(jsonstr)
-    { 
-              type:"POST",
-              url: "ajax.php",
-              data: 'json=' +jsonstr,
-              dataType: 'json',
-              headers: {
-                  'Content-Type': 'application/json',
-
-              success: function(){
-                  alert('Test results submitted!');
-
-              },
-
-        };
-    }
+function submitStatus(){
+        dataString = '{"id"="' + $id+'"}';
+        $.ajax({
+        type: 'POST',
+        url: '../resolve.php',
+        data: dataString,
+        dataType: 'json',
+        success: function(data) {
+        alert("Success");
+        }
+      }
+}
 </script>
 <body>
   <form name="input" action="html_form_action.asp" method="get">

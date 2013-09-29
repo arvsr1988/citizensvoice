@@ -48,11 +48,14 @@ var issueListingPage = {
 
 	addIssueToList : function(issueObj){
 		var issueElements = [];
-		issueElements.push('<div id="' + issueObj.id + '" class="issue col-md-3">');
+		issueElements.push('<div id="' + issueObj.id + '" style="height : 350px;" class="issue col-md-3">');
 		issueElements.push('<div class="imageContainer">')
 		issueElements.push('<a class="issue-link" href="issue-details.html?id=' + issueObj.id + '">');
-		issueElements.push('<img class="issueImg" width="250" src="' + appConstants.imageRoot + issueObj.ImageUrl + '" title="' + issueObj.issueType +' at ' + issueObj.location + '"/></a>');
+		issueElements.push('<img class="issueImg" width="250" src="' + appConstants.imageRoot + issueObj.ImageUrl + '" title="' + issueObj.issueType +' at ' + issueObj.location + '"/>');
+
+		issueElements.push('</a>');
 		issueElements.push("</div>")
+		issueElements.push('<div class="title">'+ issueObj.issueType +' at ' + issueObj.location + '</div>');
 		issueElements.push('<span class="upVote glyphicon glyphicon-thumbs-up"></span>' + issueObj.votingcount + 'votes');
 		if(login.getLoggedInUser() === issueObj.issueowner && issueObj.status !== "Closed"){
 			issueElements.push('<span class="resolve glyphicon glyphicon-ok"></span>');

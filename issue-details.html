@@ -168,13 +168,13 @@ var paramUtils = {
     	<input type="hidden" id="issueId" />
     	<input type="hidden" id="issueOwner" />
     	<h1><span id="issueType">Loading Issue Details ... </span><span id="location"></span></h1>
-         The Problem 	<img id="issueImage" src="" />
+         <img id="issueImage" src="" width="300px" height="300px"/>
     	<p id="description"></p>
     	<p>
-    		Reported by <span id="issueOwnerText"></span> on <span id="dateStr" ></span><br />
-    		status : <span id="status"></span><button id="resolveBtn" style="display : none;">&nbsp;&nbsp;Mark Resolved</button>
+    		<b>Reported by</b> <span id="issueOwnerText"></span> <b>on </b><span id="dateStr" ></span><br />
+    		<b>Status</b> <span id="status"></span><button id="resolveBtn" style="display : none;">&nbsp;&nbsp;Mark Resolved</button>
     	</p>
-    	<h4><span id="upVoteControl">^</span>&nbsp;<span id="upVoteCount"></span></h4>
+    	<h4><span id="upVoteControl" class="glyphicon glyphicon-thumbs-up"></span>&nbsp;<span id="upVoteCount"></span></h4>
 
     	<div id="comments" style="display : none;"><h3>Comments</h3></div>
     	<div id="addCommentDiv" class="col-md-offset-1">

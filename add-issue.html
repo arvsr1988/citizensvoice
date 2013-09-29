@@ -109,7 +109,7 @@ function submitRecord(){
 $(document).ready(function()
 {
 
-	var loggedInUser = login.getLoggedInUser();
+	var loggedInUser = login.getLoggedInUser("add-issue.html");
 	if(loggedInUser == null){
 		$("#loginDialog").show();
 		login.displayLoginDialog("");

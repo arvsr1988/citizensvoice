@@ -1,0 +1,32 @@
+<html>
+<script src="/jquery-latest.js"></script>
+<script>
+function submitStatus(){	            
+		dataString = "json="+JSON.stringify({
+					id: document.getElementById("id").value, 
+					issueid: document.getElementById("issueid").value, 
+					comment: document.getElementById("comment").value, 
+					commentowner: document.getElementById("commentowner").value
+					});
+		alert(dataString);
+        $.ajax({
+        type: 'POST',
+        url: '../addComment.php',
+        data: dataString,
+        dataType: 'json',
+        success: function(data) {
+			alert("Success");
+			}
+		});
+}
+</script>
+<body>
+  
+     Id: <input type="text" name="id" id="id">
+	 Issue Id: <input type="text"  id="issueid">
+	 Comment <input type="text"  id="comment">
+	 Owner <input type="text"  id="commentowner">
+				
+    <input type="button" value="Submit" onclick="submitStatus()">
+</body>
+</html>

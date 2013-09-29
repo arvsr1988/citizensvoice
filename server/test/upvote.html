@@ -1,0 +1,24 @@
+<html>
+<script src="/jquery-latest.js"></script>
+<script>
+function submitStatus(){
+	    
+        dataString = "json="+"{\"id\":\""+document.getElementById("id").value+"\"}";
+		alert(dataString);
+        $.ajax({
+        type: 'POST',
+        url: '../upVote.php',
+        data: dataString,
+        dataType: 'json',
+        success: function(data) {
+			alert("Success");
+			}
+		});
+}
+</script>
+<body>
+  
+    Issue Id: <input type="text" name="id" id="id">
+    <input type="button" value="Submit" onclick="submitStatus()">
+</body>
+</html>

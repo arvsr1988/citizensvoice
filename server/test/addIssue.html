@@ -1,0 +1,45 @@
+<html>
+<script src="/jquery-latest.js"></script>
+<script>
+function submitStatus(){	            
+		dataString = "json="+JSON.stringify({					
+					issueid: document.getElementById("issueid").value, 
+					issuetype: document.getElementById("issuetype").value, 
+					location: document.getElementById("location").value,
+					
+					datestr: document.getElementById("datestr").value, 
+					imageUrl: document.getElementById("imageUrl").value, 
+					status: document.getElementById("status").value,
+					
+					votingCount: document.getElementById("votingCount").value, 
+					descr: document.getElementById("descr").value, 
+					issueowner: document.getElementById("issueowner").value
+					});
+		alert(dataString);
+        $.ajax({
+        type: 'POST',
+        url: '../addIssue.php',
+        data: dataString,
+        dataType: 'json',
+        success: function(data) {			
+			alert("Success");
+			}
+		});
+}
+</script>
+<body>
+	 Issue Id: <input type="text"  id="issueid" value="1">
+	 issuetype <input type="text"  id="issuetype" value="1">
+	 location <input type="text"  id="location" value="1">
+	 
+	 datestr <input type="text"  id="datestr" value="1">
+	 imageUrl <input type="text"  id="imageUrl" value="1">
+	 status <input type="text"  id="status" value="1">
+	 
+	 votingCount <input type="text"  id="votingCount" value="1">
+	 descr <input type="text"  id="descr" value="1">
+	 issueowner <input type="text"  id="issueowner" value="1">
+				
+    <input type="button" value="Submit" onclick="submitStatus()">
+</body>
+</html>

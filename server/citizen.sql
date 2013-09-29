@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 29, 2013 at 01:10 AM
+-- Generation Time: Sep 29, 2013 at 03:47 AM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.4.3
 
@@ -29,9 +29,22 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `comments` (
   `id` int(11) NOT NULL,
   `issueid` int(11) NOT NULL,
-  `comment` int(11) NOT NULL,
-  `commentowner` int(11) NOT NULL
+  `comment` varchar(110) NOT NULL,
+  `commentowner` varchar(110) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`id`, `issueid`, `comment`, `commentowner`) VALUES
+(1, 1, 'Testing', 'testing'),
+(1, 1, 'test', 'siva@neelsoftware.com'),
+(0, 2, '', ''),
+(0, 2, '', ''),
+(0, 2, '', ''),
+(0, 2, '', ''),
+(0, 5, '', '');
 
 -- --------------------------------------------------------
 
@@ -50,7 +63,16 @@ CREATE TABLE IF NOT EXISTS `issue` (
   `descr` varchar(110) NOT NULL,
   `issueowner` varchar(110) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `issue`
+--
+
+INSERT INTO `issue` (`id`, `issuetype`, `location`, `datestr`, `imageUrl`, `status`, `votingCount`, `descr`, `issueowner`) VALUES
+(1, 'Street light', 'chennai', '5 march 2011', 'image/test.jpg', 'Closed', 2, 'testing', 'siva@neelsoftware.com'),
+(2, '1', '1', '1', '1', '1', 1, '1', ''),
+(3, '1', '1', '1', '1', '1', 1, '1', 'siva');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

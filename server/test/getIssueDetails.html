@@ -1,0 +1,61 @@
+<html>
+<script src="/jquery-latest.js"></script>
+<script>
+function submitStatus(){
+	    
+        dataString = "json="+"{\"id\":\""+document.getElementById("id").value+"\"}";
+		alert(dataString);
+        $.ajax({
+        type: 'POST',
+        url: '../getIssueDetail.php',
+        data: dataString,
+        dataType: 'json',
+        success: function(obj) {		
+			alert(obj.id);
+			document.getElementById("issuetype").innerHTML  = obj.issuetype;
+			document.getElementById("location").innerHTML  = obj.location;
+			document.getElementById("datestr").innerHTML  = obj.datestr;
+			
+			document.getElementById("imageUrl").innerHTML  = obj.imageUrl;
+			document.getElementById("status").innerHTML  = obj.status;
+			document.getElementById("id").innerHTML  = obj.id;
+			
+			document.getElementById("descr").innerHTML  = obj.descr;
+			document.getElementById("issueowner").innerHTML  = obj.issueowner;
+			document.getElementById("votingCount").innerHTML  = obj.votingCount;			
+			str='<table>';
+			for(var i=0;i<obj.comment.length;i++){
+				str+='<tr>';
+				str+='<td>'+ obj.comment[i].commentDescr +'</td>';
+				str+='<td>'+ obj.comment[i].owner+' </td>';
+				str+='</tr>';
+				}			
+			str+='</table>';
+			document.getElementById("commentdiv").innerHTML =str;
+		}
+		});
+}
+</script>
+<body>
+    Issue Id: <input type="text" name="id" id="id">
+    <input type="button" value="Submit" onclick="submitStatus()">
+	<table>
+	<tr>
+		<td>
+		<label id="issuetype">issuetype1</label>
+		<label id="location">location</label>
+		<label id="datestr">datestr</label>
+		<label id="imageUrl">imageUrl</label>
+		<label id="status">status</label>
+		<label id="id">id</label>
+		<label id="descr">descr</label>
+		<label id="issueowner">issueowner</label>		
+		<label id="votingCount">votingCount</label>
+		</td>		
+	</tr>
+	<tr>
+	<div id="commentdiv">
+	</tr>
+	</table>
+</body>
+</html>

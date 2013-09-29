@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Citizen's Voice</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="js/appConstants.js"></script>
+<script src="js/utils/cookieUtils.js"></script>
+<script src="js/login.js"></script>
+<script src="js/utils/bootbox.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+<!-- Optional theme -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<style>
+.issue{border-bottom : 1px solid #ccc; padding : 10px 0px;}
+</style>
+
+<script>
+$(document).ready(function(){
+	issueListingPage.showIssueList();
+});
+
+var issueListingPage = {
+	showIssueList : function(){
+		$.ajax({
+			url : appConstants.serverUrl + 'getListIssues.php',
+			success : function(data){
+				$("#loading").hide();
+				for(issue in data){
+					issueListingPage.addIssueToList(data[issue]);	
+				}
+			}
+		});
+	},
+
+	addIssueToList : function(issueObj){
+		var issueElements = [];
+		issueElements.push('<div class="issue">');
+		issueElements.push('<h1><a class="issue-link" href="issue-details.html?id=' + issueObj.id + '"><span id="issueType">'+ issueObj.issueType +'</span> at <span id="location">' + issueObj.location + '</span></a></h1>');
+		issueElements.push('<img id="issueImage" src="' + appConstants.serverUrl + issueObj.ImageUrl + '" />');
+		issueElements.push('<p>Reported by <span id="issueOwnerText">' + issueObj.issueowner.split("@")[0] + '</span> on <span id="dateStr" >' + issueObj.time + ' </span>');
+    	issueElements.push('<br />status : <span id="status">' + issueObj.status + ' </span></p>'
+			);
+		$("#issueList").append(issueElements.join(""));
+	}
+}
+</script>
+</head>
+<body>
+<body>
+<div class="container">
+	<div id="loading">loading issues</div>
+	<button class="success"><a href="/add-issue.html">Add your own issue</a></button>
+    <div id="issueList" >
+	</div>
+</div>
+</body>

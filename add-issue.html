@@ -19,12 +19,12 @@ $(document).ready(function(){
 	var loggedInUser = login.getLoggedInUser();
 	if(loggedInUser == null){
 		$("#loginDialog").show();
-		login.displayLoginDialog("");
+		login.displayLoginDialog("add-issue.html");
 		}
 	else {
 		$("#userEmail").val(loggedInUser);
 		$("#formContainer").show();
-		}	
+		}
 		
 	$("#issueImage").change(function(){
 		imageUploadUtils.previewImage($(this).prop("id"),"uploadPreview");

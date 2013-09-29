@@ -15,63 +15,171 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script>
-function submitStatus(){
-	    
-        dataString = "json="+"{\"id\":\""+document.getElementById("id").value+"\"}";
-		alert(dataString);
-        $.ajax({
-        type: 'POST',
-        url: appConstants.serverUrl + 'getIssueDetail.php',
-        data: dataString,
-        dataType: 'json',
-        success: function(obj) {		
-			alert(obj.id);
-			document.getElementById("issuetype").innerHTML  = obj.issuetype;
-			document.getElementById("location").innerHTML  = obj.location;
-			document.getElementById("datestr").innerHTML  = obj.datestr;
-			
-			document.getElementById("imageUrl").innerHTML  = obj.imageUrl;
-			document.getElementById("status").innerHTML  = obj.status;
-			document.getElementById("id").innerHTML  = obj.id;
-			
-			document.getElementById("descr").innerHTML  = obj.descr;
-			document.getElementById("issueowner").innerHTML  = obj.issueowner;
-			document.getElementById("votingCount").innerHTML  = obj.votingCount;			
-			str='<table>';
-			for(var i=0;i<obj.comment.length;i++){
-				str+='<tr>';
-				str+='<td>'+ obj.comment[i].commentDescr +'</td>';
-				str+='<td>'+ obj.comment[i].owner+' </td>';
-				str+='</tr>';
-				}			
-			str+='</table>';
-			document.getElementById("commentdiv").innerHTML =str;
+
+$(document).ready(function(){
+	$("#issueId").val(paramUtils.getParameterByName("id"));
+	issueDetailsPage.fillIssueDetails($("#issueId").val());;
+	$("#resolveBtn").click(function(){
+		issueDetailsPage.resolveIssue();
+	});
+	$("#upVoteControl").click(function(){
+		issueDetailsPage.upVote();
+	});
+	$("#addComment").click(function(){
+		issueDetailsPage.addComment();
+	});
+});
+
+var issueDetailsPage = {
+	fillIssueDetails : function(issueId){
+		if(isNaN(parseInt(issueId) || parseInt(issueId) == 0)){
+			$("#issueDetails").hide();
+			return;
 		}
+        $.ajax({
+	        type: 'POST',
+	        url: appConstants.serverUrl + 'getIssueDetail.php',
+	        data: "json="+"{\"id\":\"" + issueId + "\"}",
+	        dataType: 'json',
+	        success: function(obj) {
+	        	$("#issueId").val(obj.id);
+	        	$("#issueType").text(obj.issuetype);
+	        	$("#location").text(" at " + obj.location);
+	        	$("#dateStr").text(obj.datestr);
+	        	$("#issueImage").prop("src",appConstants.serverUrl + obj.imageUrl);
+				$("#status").text(obj.status);
+				$("#description").text(obj.descr);
+				$("#issueOwner").val(obj.issueowner);
+				$("#issueOwnerText").text(obj.issueowner.split("@")[0]);
+				$("#upVoteCount").text(obj.votingCount);
+				if(login.getLoggedInUser() === obj.issueowner){
+					/* && obj.status !== "Closed" */
+					$("#resolveBtn").show();
+				}
+				if(obj.comment.length <= 0){
+					return;
+				}
+				
+				for(var i=0;i<obj.comment.length;i++){
+					issueDetailsPage.addCommentDisplay(obj.comment[i].commentDescr, obj.comment[i].owner.split("@")[0])
+					}			
+				
+			}
 		});
+	},
+
+	addCommentDisplay : function(description, owner) {
+		var commentStr = [];
+		commentStr.push('<div class="comment col-md-offset-1" >');
+		commentStr.push(description);
+		commentStr.push('<span class="commentAuthor"> - ');
+		commentStr.push(owner)
+		commentStr.push('</span>');
+		commentStr.push('</div>');
+		$("#comments").append(commentStr.join("")).show();
+	},
+	resolveIssue : function(){
+		$.ajax({
+	        type: 'POST',
+	        url: appConstants.serverUrl + 'resolve.php',
+	        data: "json="+"{\"id\":\"" + $("#issueId").val() +"\"}",
+	        dataType: 'json',
+	        success: function(data) {
+				alert("Success");
+				$("#resolveBtn").hide();
+				}
+		});
+	},
+
+	upVote :  function(){
+		if(!issueDetailsPage.performLoginCheck()){
+			return false;
+		}
+
+        $.ajax({
+	        type: 'POST',
+	        url: appConstants.serverUrl + '/upVote.php',
+	        data: "json="+"{\"id\":\"" + $("#issueId").val() +"\"}",
+	        dataType: 'json',
+	        success: function(data) {
+				alert("Your vote has been submitted");
+				$("#upVoteControl").hide();
+				}
+		});
+
+
+	},
+
+	addComment : function(){
+		if(!issueDetailsPage.performLoginCheck() && $("#comment").val() === ""){
+			return false;
+		}
+
+		dataString = "json="+JSON.stringify({
+					issueid: $("#issueId").val(), 
+					comment: $("#comment").val(), 
+					commentowner: login.getLoggedInUser()
+					});
+        $.ajax({
+	        type: 'POST',
+	        url: appConstants.serverUrl + 'addComment.php',
+	        data: dataString,
+	        dataType: 'json',
+	        success: function(data) {
+				alert("Your comment has been added");
+				addCommentDisplay($("#comment").val(), $("#issueOwner").val());
+				$("#comment").val("");
+				}
+		});
+	},
+	performLoginCheck : function(){
+		var loggedInUser = login.getLoggedInUser();
+		if(loggedInUser === null){
+			$("#loginDialog").show();
+			login.displayLoginDialog("issue-details.html?" + appConstants.issueIdParam + "=" + $("#issueId").val() );
+			return false;
+			}
+		else {
+			return true;
+			}
+
+	}
 }
+
+var paramUtils = {
+	getParameterByName : function(name) {
+    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}	
+}
+
 </script>
+<style>
+#upVoteControl {cursor : pointer;}
+</style>
 </head>
 
 <body>
-    Issue Id: <input type="text" name="id" id="id">
-    <input type="button" value="Submit" onclick="submitStatus()">
-	<table>
-	<tr>
-		<td>
-		<label id="issuetype">issuetype1</label>
-		<label id="location">location</label>
-		<label id="datestr">datestr</label>
-		<label id="imageUrl">imageUrl</label>
-		<label id="status">status</label>
-		<label id="id">id</label>
-		<label id="descr">descr</label>
-		<label id="issueowner">issueowner</label>		
-		<label id="votingCount">votingCount</label>
-		</td>		
-	</tr>
-	<tr>
-	<div id="commentdiv">
-	</tr>
-	</table>
+    <div id="issueDetails" class="container">
+		<div id="loginDialog" style="display : none;">You are not logged in. <a href="#">Login.</a></div>
+
+    	<input type="hidden" id="issueId" />
+    	<input type="hidden" id="issueOwner" />
+    	<h1><span id="issueType">Loading Issue Details ... </span><span id="location"></span></h1>
+    	<img id="issueImage" src="" />
+    	<p id="description"></p>
+    	<p>
+    		Reported by <span id="issueOwnerText"></span> on <span id="dateStr" ></span><br />
+    		status : <span id="status"></span><button id="resolveBtn" style="display : none;">&nbsp;&nbsp;Mark Resolved</button>
+    	</p>
+    	<h4><span id="upVoteControl">^</span>&nbsp;<span id="upVoteCount"></span></h4>
+
+    	<div id="comments" style="display : none;"><h3>Comments</h3></div>
+    	<div id="addCommentDiv" class="col-md-offset-1">
+    	<textarea id="comment" type="text" placeholder="add comments" maxlength="250" rows="2" ></textarea><button id="addComment" class="" >add comment</button>
+    	</div>
+	</div>
 </body>
 </html>

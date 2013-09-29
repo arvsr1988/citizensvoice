@@ -3,7 +3,9 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Citizen's Voice</title>
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script>
 <script src="js/appConstants.js"></script>
 <script src="js/utils/cookieUtils.js"></script>
 <script src="js/login.js"></script>
@@ -15,27 +17,7 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script>
-$(document).ready(function(){
-	var loggedInUser = login.getLoggedInUser();
-	if(loggedInUser == null){
-		$("#loginDialog").show();
-		login.displayLoginDialog("");
-		}
-	else {
-		$("#userEmail").val(loggedInUser);
-		$("#formContainer").show();
-		}	
-		
-	$("#issueImage").change(function(){
-		imageUploadUtils.previewImage($(this).prop("id"),"uploadPreview");
-	});	
-	
-	$("#addIssueSubmit").click(function(){
-		issueForm.submitForm();
-		return false;
-		});
-});
-	
+
 var imageUploadUtils = {
 	 previewImage : function(uploadInput, previewElement) {
 		var oFReader = new FileReader();
@@ -49,40 +31,32 @@ var imageUploadUtils = {
 function SubmitFrm(){       
         window.location = "formSubmitSuccess.html";
     }
-var issueForm = {
-	submitForm : function (){
-		var formData = new FormData($('#addIssueForm')[0]);
-		$.ajax({
-			url: '/citizensvoice/trunk/server/addIssue.php?json=', //server script to process data
-			type: 'POST',
-			xhr: function() {  // custom xhr
-				myXhr = $.ajaxSettings.xhr();
-				if(myXhr.upload){ // check if upload property exists
-					// for handling the progress of the upload
-					myXhr.upload.addEventListener('progress', this.progressHandlingFunction, false); 
-				}
-				return myXhr;
-			},
-			success: function(result)
-			{
-				console.log($.ajaxSettings.xhr().upload);
-				//alert(result);
-				SubmitFrm();
-			},
-			// Form data
-			data: formData,
-			//Options to tell JQuery not to process data or worry about content-type
-			cache: false,
-			contentType: false,
-			processData: false
-		});		
-		},
-	 progressHandlingFunction : function(e){
-		if(e.lengthComputable){
-			$("#progress").text("Saving data.....");
-		}
-	}
-}
+
+function submitRecord(){
+	var filename = document.getElementById("myfile").value.replace(/^.*[\\\/]/, '');
+	dataString = "json="+JSON.stringify({					
+					
+					issuetype: document.getElementById("issuetype").value, 
+					location: document.getElementById("location").value,
+					descr: document.getElementById("description").value, 
+					status: "new",					
+					datestr: "29-Sep-2013",
+					votingCount: 1, 			
+					imageUrl: "/citizensvoice/trunk/upload/"+filename,
+					issueowner: document.getElementById("userEmail").value					
+					});
+		//alert(dataString);
+        $.ajax({
+        type: 'POST',
+        url: '/citizensvoice/trunk/server/addIssue.php',
+        data: dataString,
+        dataType: 'json',
+        success: function(data) {			
+			//alert("Success");
+			SubmitFrm();
+			}
+		});
+	}	
 </script>
 </head>
 <body>
@@ -93,8 +67,15 @@ var issueForm = {
 	
 	<div id="formContainer" class="row" style="display : none;">
 		<h2>Please share the details of your issue below.</h2>
-		<form id="addIssueForm" action="" method="POST" role="form">
+		<form id="addIssueForm" action="upload.php" method="post" enctype="multipart/form-data">
 			<input type="hidden" id="userEmail" name="issueOwner" />
+			
+			<div class="form-group">
+				<label for="imageUpload">Picture of the issue</label>				
+				<img id="uploadPreview" style="width: 300px; height: 300px;" src="ShowMe.jpeg"/>
+				<input id="myfile" type="file" name="myfile" />
+		   </div>	
+		   
 		  <div class="form-group">
 			<label for="location">Area</label>
 			<input type="text" class="form-control" id="location" name="location" >
@@ -110,14 +91,10 @@ var issueForm = {
 			<label for="descr">Description of the issue</label>
 			<textarea id="description" name="descr" class="form-control" maxlength="100"></textarea>
 		   </div>
-		  <div class="form-group">
-			<label for="imageUpload">Picture of the issue</label>
-			<input id="issueImage" type="file" name="issueImage" />
-			<img id="uploadPreview" style="width: 100px; height: 100px;" />
-		   </div>		   
+		 	   
 		   
  		  <div class="form-group">
-			  <button id="addIssueSubmit" type="submit" class="btn btn-default">Submit</button>
+			  <input id="addIssueSubmit" type="submit" class="btn btn-default"  value="Submit your problem"></button>
 		  </div>  
 		</form>
 		<div id="progress"></div>
@@ -125,4 +102,67 @@ var issueForm = {
 </div>
 
 </div>
+
 </body>
+<script>
+$(document).ready(function()
+{
+
+	var loggedInUser = login.getLoggedInUser();
+	if(loggedInUser == null){
+		$("#loginDialog").show();
+		login.displayLoginDialog("");
+		}
+	else {
+		$("#userEmail").val(loggedInUser);
+		$("#formContainer").show();
+		}	
+		
+	$("#myfile").change(function(){
+		imageUploadUtils.previewImage($(this).prop("id"),"uploadPreview");
+	});	
+	
+	/*$("#addIssueSubmit").click(function(){
+		issueForm.submitForm();
+		return false;
+		}); */
+
+	var options = { 
+    beforeSend: function() 
+    {
+    	//$("#progress").show();
+    	//clear everything
+    	//$("#bar").width('0%');
+    	//$("#message").html("");
+		//$("#percent").html("0%");
+    },
+    uploadProgress: function(event, position, total, percentComplete) 
+    {
+    	//$("#bar").width(percentComplete+'%');
+    	//$("#percent").html(percentComplete+'%');
+
+    },
+    success: function() 
+    {
+        //$("#bar").width('100%');
+    	//$("#percent").html('100%');
+		submitRecord();
+    },
+	complete: function(response) 
+	{
+		//$("#message").html("<font color='green'>"+response.responseText+"</font>");
+	},
+	error: function()
+	{
+		//$("#message").html("<font color='red'> ERROR: unable to upload files</font>");
+
+	}
+
+}; 
+
+     $("#addIssueForm").ajaxForm(options);
+
+});	
+
+</script>
+</html>

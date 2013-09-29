@@ -46,7 +46,9 @@ var imageUploadUtils = {
 		};
 	}
 }
-
+function SubmitFrm(){       
+        window.location = "http://164.100.134.92:8280/pgr/citizen/greViewComplaint.jsp?complaintNo=697EJJ";
+    }
 var issueForm = {
 	submitForm : function (){
 		var formData = new FormData($('#addIssueForm')[0]);
@@ -65,6 +67,7 @@ var issueForm = {
 			{
 				console.log($.ajaxSettings.xhr().upload);
 				alert(result);
+				SubmitFrm();
 			},
 			// Form data
 			data: formData,

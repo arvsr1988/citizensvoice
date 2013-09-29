@@ -1,9 +1,10 @@
 <html>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="/jquery-latest.js"></script>
 <script>
 function submitStatus(){
-	    alert("submit");
-        dataString = "json="+"{\"id\":\"2\"}";
+	    
+        dataString = "json="+"{\"id\":\""+document.getElementById("id").value+"\"}";
+		alert(dataString);
         $.ajax({
         type: 'POST',
         url: '../resolve.php',
@@ -17,7 +18,7 @@ function submitStatus(){
 </script>
 <body>
   
-    Issue Id: <input type="text" name="id">
+    Issue Id: <input type="text" name="id" id="id">
     <input type="button" value="Submit" onclick="submitStatus()">
 </body>
 </html>

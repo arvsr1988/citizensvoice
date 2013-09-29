@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 28, 2013 at 10:29 AM
+-- Generation Time: Sep 29, 2013 at 01:10 AM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.4.3
 
@@ -44,11 +44,11 @@ CREATE TABLE IF NOT EXISTS `issue` (
   `issuetype` varchar(100) NOT NULL,
   `location` varchar(200) NOT NULL,
   `datestr` varchar(200) NOT NULL,
-  `imageUrl` int(11) NOT NULL,
-  `status` int(11) NOT NULL,
+  `imageUrl` varchar(110) NOT NULL,
+  `status` varchar(110) NOT NULL,
   `votingCount` int(11) NOT NULL,
-  `descr` int(11) NOT NULL,
-  `issueowner` int(11) NOT NULL,
+  `descr` varchar(110) NOT NULL,
+  `issueowner` varchar(110) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 

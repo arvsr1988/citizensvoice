@@ -8,6 +8,7 @@ if (mysqli_connect_errno())
   }
 
 $queryStr="UPDATE issue SET status='Closed' WHERE id='".$phpobj->id."'";
+$queryStr="INSERT INTO `citizen`.`comments` (`id`, `issueid`, `comment`, `commentowner`) VALUES ('".$phpobj->id."', '".$phpobj->issueid."', '".$phpobj->comment."', '".$phpobj->commentowner."');";
 print_r($queryStr);
 mysqli_query($con,$queryStr);
 

@@ -46,7 +46,7 @@ var issueDetailsPage = {
 	        	$("#issueType").text(obj.issuetype);
 	        	$("#location").text(" at " + obj.location);
 	        	$("#dateStr").text(obj.datestr);
-	        	$("#issueImage").prop("src",appConstants.serverUrl + obj.imageUrl);
+	        	$("#issueImage").prop("src",obj.imageUrl);
 				$("#status").text(obj.status);
 				$("#description").text(obj.descr);
 				$("#issueOwner").val(obj.issueowner);
@@ -168,7 +168,7 @@ var paramUtils = {
     	<input type="hidden" id="issueId" />
     	<input type="hidden" id="issueOwner" />
     	<h1><span id="issueType">Loading Issue Details ... </span><span id="location"></span></h1>
-    	<img id="issueImage" src="" />
+         The Problem 	<img id="issueImage" src="" />
     	<p id="description"></p>
     	<p>
     		Reported by <span id="issueOwnerText"></span> on <span id="dateStr" ></span><br />

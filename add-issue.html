@@ -71,30 +71,30 @@ function submitRecord(){
 			<input type="hidden" id="userEmail" name="issueOwner" />
 			
 			<div class="form-group">
-				<label for="imageUpload">Picture of the issue</label>				
+				<label for="imageUpload">1. Show me the Problem...</label>				
 				<img id="uploadPreview" style="width: 300px; height: 300px;" src="ShowMe.jpeg"/>
 				<input id="myfile" type="file" name="myfile" />
 		   </div>	
 		   
 		  <div class="form-group">
-			<label for="location">Area</label>
+			<label for="location">2. Where did this happen? </label>
 			<input type="text" class="form-control" id="location" name="location" >
 		  </div>
 		  <div class="form-group">
-			<label for="issuetype">Issue Type</label>
+			<label for="issuetype">3. What kind of problem it is?</label>
 			<select id="issuetype" class="form-control" name="issuetype"> 
 				<option value="Street Light Not Working">Street Light Not Working</option>
 				<option value="2">Whatever</option>
 			</select>
 			</div>
 		  <div class="form-group">
-			<label for="descr">Description of the issue</label>
+			<label for="descr">4. Lets us know what your think of the issue? and what do you want us to do?</label>
 			<textarea id="description" name="descr" class="form-control" maxlength="100"></textarea>
 		   </div>
 		 	   
 		   
  		  <div class="form-group">
-			  <input id="addIssueSubmit" type="submit" class="btn btn-default"  value="Submit your problem"></button>
+			  <input id="addIssueSubmit" type="submit" class="btn btn-default"  value="Send it to us.. We would help fix it.."></button>
 		  </div>  
 		</form>
 		<div id="progress"></div>

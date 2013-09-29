@@ -52,8 +52,8 @@ var issueDetailsPage = {
 				$("#issueOwner").val(obj.issueowner);
 				$("#issueOwnerText").text(obj.issueowner.split("@")[0]);
 				$("#upVoteCount").text(obj.votingCount);
-				if(login.getLoggedInUser() === obj.issueowner){
-					/* && obj.status !== "Closed" */
+				if(login.getLoggedInUser() === obj.issueowner && obj.status !== "Closed"){
+					/*  */
 					$("#resolveBtn").show();
 				}
 				if(obj.comment.length <= 0){

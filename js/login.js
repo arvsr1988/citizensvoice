@@ -11,7 +11,6 @@ var login = {
 		bootbox.prompt("Login with your email address", function(result) {                
 		  if (result !== null && result !== "" && IsEmail(result)) {
 			cookieUtils.setCookie(appConstants.loginCookie, result, 10);
-			alert("cookie set as " + login.getLoggedInUser());
 			if(redirectUrl !== null && redirectUrl !== "" ){
 				window.location.href=redirectUrl;
 			}

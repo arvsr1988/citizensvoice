@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Citizen's Voice</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="js/appConstants.js"></script>
+<script src="js/utils/cookieUtils.js"></script>
+<script src="js/login.js"></script>
+<script src="js/utils/bootbox.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+<!-- Optional theme -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script>
+function submitStatus(){
+	    
+        dataString = "json="+"{\"id\":\""+document.getElementById("id").value+"\"}";
+		alert(dataString);
+        $.ajax({
+        type: 'POST',
+        url: appConstants.serverUrl + 'getIssueDetail.php',
+        data: dataString,
+        dataType: 'json',
+        success: function(obj) {		
+			alert(obj.id);
+			document.getElementById("issuetype").innerHTML  = obj.issuetype;
+			document.getElementById("location").innerHTML  = obj.location;
+			document.getElementById("datestr").innerHTML  = obj.datestr;
+			
+			document.getElementById("imageUrl").innerHTML  = obj.imageUrl;
+			document.getElementById("status").innerHTML  = obj.status;
+			document.getElementById("id").innerHTML  = obj.id;
+			
+			document.getElementById("descr").innerHTML  = obj.descr;
+			document.getElementById("issueowner").innerHTML  = obj.issueowner;
+			document.getElementById("votingCount").innerHTML  = obj.votingCount;			
+			str='<table>';
+			for(var i=0;i<obj.comment.length;i++){
+				str+='<tr>';
+				str+='<td>'+ obj.comment[i].commentDescr +'</td>';
+				str+='<td>'+ obj.comment[i].owner+' </td>';
+				str+='</tr>';
+				}			
+			str+='</table>';
+			document.getElementById("commentdiv").innerHTML =str;
+		}
+		});
+}
+</script>
+</head>
+
+<body>
+    Issue Id: <input type="text" name="id" id="id">
+    <input type="button" value="Submit" onclick="submitStatus()">
+	<table>
+	<tr>
+		<td>
+		<label id="issuetype">issuetype1</label>
+		<label id="location">location</label>
+		<label id="datestr">datestr</label>
+		<label id="imageUrl">imageUrl</label>
+		<label id="status">status</label>
+		<label id="id">id</label>
+		<label id="descr">descr</label>
+		<label id="issueowner">issueowner</label>		
+		<label id="votingCount">votingCount</label>
+		</td>		
+	</tr>
+	<tr>
+	<div id="commentdiv">
+	</tr>
+	</table>
+</body>
+</html>

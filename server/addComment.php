@@ -1,5 +1,7 @@
 <?php
 
+include("crossdomain.php");
+
 $phpobj=json_decode($_POST['json'], false); 
 $con=mysqli_connect("localhost","testuser","testpass","citizen");
 if (mysqli_connect_errno())

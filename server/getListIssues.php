@@ -41,11 +41,11 @@ while($row = mysqli_fetch_array($result))
     $e->id = $row['id'];
 	
 	
-	$result = mysqli_query($con,"SELECT * FROM comments where issueid='".$e->id."'");
-	while($row = mysqli_fetch_array($result)){
+	$result1 = mysqli_query($con,"SELECT * FROM comments where issueid='".$e->id."'");
+	while($row1 = mysqli_fetch_array($result1)){
 		$d = new comment();
-		$d->commentDescr = $row['comment'];
-		$d->owner  = $row['commentowner']  ;
+		$d->commentDescr = $row1['comment'];
+		$d->owner  = $row1['commentowner']  ;
 		array_push($e->comment,$d);
 	}
    array_push($c,$e);

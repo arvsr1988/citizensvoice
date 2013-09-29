@@ -1,4 +1,7 @@
 <?php
+
+include("crossdomain.php");
+
    class issue {
        public $issuetype = "";
        public $location  = "";

@@ -1,5 +1,5 @@
 <?php
-
+include("crossdomain.php");
   $con=mysqli_connect("localhost","testuser","testpass","citizen");
   if (mysqli_connect_errno())
   {

@@ -16,6 +16,21 @@
 <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
 <!-- Latest compiled and minified JavaScript -->
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<style>
+ul.images {
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  width: 900px;
+  overflow-x: auto;
+  background-color: #ddd;
+}
+ul.images li {
+  display: inline;
+  width: 150px;
+  height: 150px;
+}
+</style>
 <script>
 
 var imageUploadUtils = {
@@ -81,14 +96,22 @@ function submitRecord(){
 			<label for="location">2. Where did this happen? </label>
 			<input type="text" class="form-control" id="location" name="location" >
 		  </div>
-		  <div class="form-group">
-			<label for="issuetype">3. What kind of problem it is?</label>
+		  <div class="form-group"  style="visibility:hidden">
+			<label  for="issuetype">3. What kind of problem it is?</label>
 			<select id="issuetype" class="form-control" name="issuetype"> 
 				<option value="Street Light">Street Light</option>
 				<option value="Removal of Garbage">Removal of Garbage</option>
 				<option value="Mosquito Menace">Mosquito Menace</option>
 				<option value="Water Stagnation">Water Stagnation</option>
 			</select>
+			</div>
+			<div class="form-group">
+				<ul class="images">
+					<li><a onclick="changeissueType('ChennaiCroporation')"><img src="imgApp/ChennaiCroporation.jpg" width="90" height="90"/></a></li>
+					<li><a onclick="changeissueType('ChennaiMetro')"><img src="imgApp/ChennaiMetro.jpg" width="90" height="90"/></a></li>
+					<li><a onclick="changeissueType('ChennaiTrafficPolice')"><img src="imgApp/ChennaiTrafficPolice.jpg" width="90" height="90"/></a></li>
+					<li><a onclick="changeissueType('TamilNaduEB')"><img src="imgApp/TamilNaduEB.jpg" width="90" height="90"/></a></li>
+				</ul>
 			</div>
 		  <div class="form-group">
 			<label for="descr">4. Lets us know what your think of the issue? and what do you want us to do?</label>

@@ -20,14 +20,7 @@
 .upVote, .resolve {font-size : 14pt; padding : 5px; cursor : pointer;}
 .upVote:hover,.resolve:hover{text-decoration : underline;}
 </style>
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=171206286404635";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+
 
 <script>
 $(document).ready(function(){
@@ -183,6 +176,7 @@ function viewDetails(src){
 <body>
 <body>
 <div class="container">
+<iframe src="http://www.facebook.com/plugins/like.php?href=http://localhost:8091/citizensvoice/trunk/add-issue.html&amp;layout=standard&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:450px; height:60px;"> testing</iframe>
 	<div id="loginDialog" style="display : none;">You are not logged in. <a href="issue-list.html">Login.</a></div>
 	<div id="loading">loading issues</div>
 	<div class="row">

@@ -42,6 +42,8 @@ var issueDetailsPage = {
 	        data: "json="+"{\"id\":\"" + issueId + "\"}",
 	        dataType: 'json',
 	        success: function(obj) {
+			     var fbc = document.getElementByID("fbComm");
+				 fbc.data-href =   window.location.href+obj.imageUrl;
 	        	$("#issueId").val(obj.id);
 	        	$("#issueType").text(obj.issuetype);
 	        	$("#location").text(" at " + obj.location);
@@ -56,14 +58,6 @@ var issueDetailsPage = {
 					/*  */
 					$("#resolveBtn").show();
 				}
-				if(obj.comment.length <= 0){
-					return;
-				}
-				
-				for(var i=0;i<obj.comment.length;i++){
-					issueDetailsPage.addCommentDisplay(obj.comment[i].commentDescr, obj.comment[i].owner.split("@")[0])
-					}			
-				
 			}
 		});
 	},
@@ -136,8 +130,7 @@ var issueDetailsPage = {
 		var loggedInUser = login.getLoggedInUser();
 		if(loggedInUser === null){
 			$("#loginDialog").show();
-			//login.displayLoginDialog("issue-details.html?" + appConstants.issueIdParam + "=" + $("#issueId").val() );
-			login.displayLoginDialog("add-issue.html");
+			login.displayLoginDialog("issue-details.html?" + appConstants.issueIdParam + "=" + $("#issueId").val() );			
 			return false;
 			}
 		else {
@@ -210,11 +203,8 @@ var paramUtils = {
     		<b>Status</b> <span id="status"></span><button id="resolveBtn" style="display : none;">&nbsp;&nbsp;Mark Resolved</button>
     	</p>
     	<h4><span id="upVoteControl" class="glyphicon glyphicon-thumbs-up"></span>&nbsp;<span id="upVoteCount"></span></h4>
-		<div class="fb-comments" data-href="http://neelsoft.dnsdynamic.com:8091/citizensvoice/trunk/uploads/water2.jpg" data-colorscheme="light" data-width="470"></div><!--
-    	<div id="comments" style="display : none;"><h3>Comments</h3></div>
-    	<div id="addCommentDiv" class="col-md-offset-1">
-    	<textarea id="comment" type="text" placeholder="add comments" maxlength="250" rows="2" ></textarea><button id="addComment" class="" >add comment</button>
-    	</div>-->
+		<div class="fb-comments" id="fbcomm" data-href="" data-colorscheme="light" data-width="470"></div>
+    	
 	</div>
 </body>
 </html>

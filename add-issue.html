@@ -3,10 +3,12 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Citizen's Voice</title>
+<script src="http://maps.google.com/maps/api/js?libraries=places&region=chennai&language=en&sensor=true"></script>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="http://malsup.github.com/jquery.form.js"></script>
 <script src="js/appConstants.js"></script>
+<script src="js/addressJs.js"></script>
 <script src="js/utils/cookieUtils.js"></script>
 <script src="js/login.js"></script>
 <script src="js/utils/bootbox.min.js"></script>
@@ -30,10 +32,21 @@ ul.images li {
   width: 150px;
   height: 150px;
 }
-</style>
-<script>
 
-var imageUploadUtils = {
+</style>
+<style>
+      #map_canvas {
+        width: 200px;
+        height: 200px;
+		 background-color: #CCC;
+      }
+ </style>
+
+ 
+ 
+
+<script>
+	var imageUploadUtils = {
 	 previewImage : function(uploadInput, previewElement) {
 		var oFReader = new FileReader();
 		oFReader.readAsDataURL(document.getElementById(uploadInput).files[0]);
@@ -42,6 +55,9 @@ var imageUploadUtils = {
 			document.getElementById(previewElement).src = oFREvent.target.result;
 		};
 	}
+	}
+function changeissueType (val){
+	document.getElementById("issuetype").value =val;	
 }
 function SubmitFrm(){       
         window.location = "formSubmitSuccess.html";
@@ -54,6 +70,8 @@ function submitRecord(){
 					issuetype: document.getElementById("issuetype").value, 
 					location: document.getElementById("location").value,
 					descr: document.getElementById("description").value, 
+					lat: document.getElementById("latitude").value, 
+					lon: document.getElementById("longitude").value, 
 					status: "new",					
 					datestr: "29-Sep-2013",
 					votingCount: 1, 			
@@ -77,34 +95,35 @@ function submitRecord(){
 <body>
 <div class="container">
 	<div class="row">
-	<h1><img src="Citizen_Logo.png" width="200"/>Add your issue</h1>
+	<h1><img src="Citizen_Logo.png" width="150"/></h1>
 	<div id="loginDialog" style="display : none;">You are not logged in. <a href="add-issue.html">Login.</a></div>
 	
 	<div id="formContainer" class="row" style="display : none;">
-		<h4>Together we can make our city better place to live..</h4>
-		<h4>Report what you think can help improve our city!!!..</h4>
+		
 		<form id="addIssueForm" action="upload.php" method="post" enctype="multipart/form-data">
 			<input type="hidden" id="userEmail" name="issueOwner" />
-			
-			<div class="form-group">
-				<label for="imageUpload">1. Show me the Problem...</label>				
-				<img id="uploadPreview" style="width: 150px; height: 150px;" src="ShowMe.jpeg"/>
+			<input type="hidden" id="issuetype" name="issueOwner" />
+		<table>
+		<tr>
+			<td>
+			<div class="form-group">		
+				<img id="uploadPreview" style="width: 200px; height: 200px;" src="ShowMe.jpeg"/>
 				<input id="myfile" type="file" name="myfile" />
 		   </div>	
 		   
-		  <div class="form-group">
-			<label for="location">2. Where did this happen? </label>
-			<input type="text" class="form-control" id="location" name="location" >
+		  <div class="form-group">			
+Address:
+<input id="location" type="text" size="50" style="text-align: left;width:357px;direction: ltr;">
+<br>
+            latitude:<input name="latitude" id="latitude" class="MapLat" value="" type="text" placeholder="Latitude" style="width: 161px;" disabled>
+            longitude:<input name="longitude" id="longitude" class="MapLon" value="" type="text" placeholder="Longitude" style="width: 161px;" disabled>
+
+    <div id="map_canvas" style="height: 300px;width: 300px;margin: 0.6em;"></div>
 		  </div>
-		  <div class="form-group"  style="visibility:hidden">
-			<label  for="issuetype">3. What kind of problem it is?</label>
-			<select id="issuetype" class="form-control" name="issuetype"> 
-				<option value="Street Light">Street Light</option>
-				<option value="Removal of Garbage">Removal of Garbage</option>
-				<option value="Mosquito Menace">Mosquito Menace</option>
-				<option value="Water Stagnation">Water Stagnation</option>
-			</select>
-			</div>
+		</td>
+		</tr>
+		 <tr>
+		 <td>
 			<div class="form-group">
 				<ul class="images">
 					<li><a onclick="changeissueType('ChennaiCroporation')"><img src="imgApp/ChennaiCroporation.jpg" width="90" height="90"/></a></li>
@@ -113,15 +132,24 @@ function submitRecord(){
 					<li><a onclick="changeissueType('TamilNaduEB')"><img src="imgApp/TamilNaduEB.jpg" width="90" height="90"/></a></li>
 				</ul>
 			</div>
+			</td>
+			</tr>
+			<tr>
+			<td>
 		  <div class="form-group">
 			<label for="descr">4. Lets us know what your think of the issue? and what do you want us to do?</label>
 			<textarea id="description" name="descr" class="form-control" maxlength="100"></textarea>
 		   </div>
-		 	   
-		   
+		 	 <td>  
+		   </tr>
+		   <tr>
+		   <td>
  		  <div class="form-group">
 			  <input id="addIssueSubmit" type="submit" class="btn btn-default"  value="Send it to us.. We would help fix it.."></button>
 		  </div>  
+		  </td>
+		  </tr>
+		  </table>
 		</form>
 		<div id="progress"></div>
 	</div>

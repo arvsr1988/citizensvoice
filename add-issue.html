@@ -23,7 +23,7 @@ ul.images {
   margin: 0;
   padding: 0;
   white-space: nowrap;
-  width: 900px;
+  width: 400px;
   overflow-x: auto;
   background-color: #ddd;
 }
@@ -106,25 +106,29 @@ function submitRecord(){
 		<table>
 		<tr>
 			<td>
-			<div class="form-group">		
-				<img id="uploadPreview" style="width: 200px; height: 200px;" src="ShowMe.jpeg"/>
+			<div class="form-group">	
+				<label for="descr">1.Problem picture</label>			
+				<img id="uploadPreview" style="width: 350px; height: 250px;" src="ShowMe.jpeg"/>
 				<input id="myfile" type="file" name="myfile" />
 		   </div>	
-		   
-		  <div class="form-group">			
-Address:
-<input id="location" type="text" size="50" style="text-align: left;width:357px;direction: ltr;">
+		   </td>
+		   <td>
+		  <div class="form-group">		
+		  <label for="descr">2.Where it happened?</label>			
+<div id="map_canvas" style="height: 200px;width: 350px;margin: 0.6em;"></div>		  
+Address:<input id="location" type="text" size="30" style="text-align: left;width:357px;direction: ltr;">
 <br>
-            latitude:<input name="latitude" id="latitude" class="MapLat" value="" type="text" placeholder="Latitude" style="width: 161px;" disabled>
+            latitude     :<input name="latitude" id="latitude" class="MapLat" value="" type="text" placeholder="Latitude" style="width: 161px;" disabled><br>
             longitude:<input name="longitude" id="longitude" class="MapLon" value="" type="text" placeholder="Longitude" style="width: 161px;" disabled>
 
-    <div id="map_canvas" style="height: 300px;width: 300px;margin: 0.6em;"></div>
+    
 		  </div>
 		</td>
 		</tr>
 		 <tr>
 		 <td>
 			<div class="form-group">
+				<label for="descr">3.What kind of problem?</label>			
 				<ul class="images">
 					<li><a onclick="changeissueType('ChennaiCroporation')"><img src="imgApp/ChennaiCroporation.jpg" width="90" height="90"/></a></li>
 					<li><a onclick="changeissueType('ChennaiMetro')"><img src="imgApp/ChennaiMetro.jpg" width="90" height="90"/></a></li>
@@ -132,22 +136,15 @@ Address:
 					<li><a onclick="changeissueType('TamilNaduEB')"><img src="imgApp/TamilNaduEB.jpg" width="90" height="90"/></a></li>
 				</ul>
 			</div>
-			</td>
-			</tr>
-			<tr>
+			</td>			
 			<td>
 		  <div class="form-group">
-			<label for="descr">4. Lets us know what your think of the issue? and what do you want us to do?</label>
+			<label for="descr">4.Lets us know what your think of the issue? and what do you want us to do?</label>
 			<textarea id="description" name="descr" class="form-control" maxlength="100"></textarea>
-		   </div>
-		 	 <td>  
-		   </tr>
-		   <tr>
-		   <td>
- 		  <div class="form-group">
 			  <input id="addIssueSubmit" type="submit" class="btn btn-default"  value="Send it to us.. We would help fix it.."></button>
-		  </div>  
-		  </td>
+		   </div>
+		 	 <td>  		   		  
+ 		  
 		  </tr>
 		  </table>
 		</form>
